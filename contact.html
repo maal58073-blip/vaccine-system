@@ -1,0 +1,98 @@
+<<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تواصل معنا - منظومة التطعيمات</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <footer>
+    <div class="footer-content">
+        <div class="footer-logo">
+            <h3><i class="fa-solid fa-shield-virus"></i> منظومة التطعيمات</h3>
+            <p>نهتم بمستقبل أطفالكم من خلال توفير رعاية صحية ذكية وسهلة الوصول.</p>
+        </div>
+        <div class="footer-rights">
+            <p>جميع الحقوق محفوظة &copy; 2026 | تصميم وتطوير المنظومة</p>
+        </div>
+    </div>
+</footer>
+</head>
+<body>
+
+<nav>
+    <div class="nav-container">
+        <a href="index.html"><i class="fa-solid fa-house"></i> الرئيسية</a>
+        <a href="booking.html"><i class="fa-solid fa-calendar-check"></i> حجز موعد</a>
+        <a href="contact.html" class="active"><i class="fa-solid fa-envelope"></i> تواصل معنا</a>
+        <a href="#" onclick="logout()" id="logoutLink" style="display:none; color: #ff4d4d;"><i class="fa-solid fa-right-from-bracket"></i> خروج</a>
+    </div>
+</nav>
+
+<div class="register-page">
+    <div class="register-card" style="max-width: 800px;">
+        <h2><i class="fa-solid fa-headset"></i> تواصل معنا</h2>
+        <p>هل لديك أي استفسار؟ نحن هنا لمساعدتك في أي وقت</p>
+
+        <div class="contact-grid" style="display: flex; flex-wrap: wrap; gap: 30px; margin-top: 30px;">
+            
+            <div class="contact-info" style="flex: 1; min-width: 250px; text-align: right;">
+                <div style="margin-bottom: 20px;">
+                    <h4 style="color: #4f46e5;"><i class="fa-solid fa-location-dot"></i> الموقع</h4>
+                    <p>طرابلس، ليبيا - المركز الصحي الرئيسي</p>
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <h4 style="color: #4f46e5;"><i class="fa-solid fa-phone"></i> رقم الهاتف</h4>
+                    <p>+218 91 000 0000</p>
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <h4 style="color: #4f46e5;"><i class="fa-solid fa-clock"></i> ساعات العمل</h4>
+                    <p>السبت - الخميس: 8:00 ص - 2:00 م</p>
+                </div>
+            </div>
+
+            <div class="contact-form" style="flex: 1.5; min-width: 280px;">
+                <form id="contactForm">
+                    <div class="input-group">
+                        <i class="fa-solid fa-user"></i>
+                        <input type="text" id="contactName" placeholder="اسمك الكامل" required>
+                    </div>
+                    <div class="input-group">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        <input type="email" id="contactEmail" placeholder="بريدك الإلكتروني" required>
+                    </div>
+                    <div class="input-group">
+                        <textarea id="message" placeholder="اكتب رسالتك هنا..." style="width: 100%; padding: 15px; border-radius: 10px; border: 1px solid #e2e8f0; outline: none; min-height: 120px; font-family: inherit;" required></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit">إرسال الرسالة</button>
+                </form>
+                <p id="contactMsg" style="display:none; color: #16a34a; margin-top: 15px; font-weight: bold;">تم إرسال رسالتك بنجاح! سنتواصل معك قريباً. 📧</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// إظهار زر الخروج إذا كان مسجلاً
+const user = JSON.parse(localStorage.getItem("user"));
+if(user) {
+    document.getElementById("logoutLink").style.display = "inline-block";
+}
+
+function logout(){
+    localStorage.removeItem("user");
+    window.location.href="index.html";
+}
+
+document.getElementById('contactForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const msg = document.getElementById('contactMsg');
+    msg.style.display = 'block';
+    this.reset();
+    setTimeout(() => { msg.style.display = 'none'; }, 4000);
+});
+</script>
+
+</body>
+</html>

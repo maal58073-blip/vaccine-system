@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول - منظومة التطعيمات</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <footer>
+    <div class="footer-content">
+        <div class="footer-logo">
+            <h3><i class="fa-solid fa-shield-virus"></i> منظومة التطعيمات</h3>
+            <p>نهتم بمستقبل أطفالكم من خلال توفير رعاية صحية ذكية وسهلة الوصول.</p>
+        </div>
+        <div class="footer-rights">
+            <p>جميع الحقوق محفوظة &copy; 2026 | تصميم وتطوير المنظومة</p>
+        </div>
+    </div>
+</footer>
+</head>
+<body>
+
+<nav>
+    <div class="nav-container">
+        <a href="index.html"><i class="fa-solid fa-house"></i> الرئيسية</a>
+        <a href="register.html"><i class="fa-solid fa-user-plus"></i> تسجيل حساب</a>
+        <a href="login.html" class="active"><i class="fa-solid fa-right-to-bracket"></i> دخول</a>
+    </div>
+</nav>
+
+<div class="register-page"> <div class="register-card">
+        <div class="logo-area">
+            <i class="fa-solid fa-right-to-bracket fa-3x" style="color: #4f46e5;"></i>
+        </div>
+        <h2>تسجيل الدخول</h2>
+        <p>مرحباً بك مجدداً في منظومة التطعيمات</p>
+
+        <form id="loginForm">
+            <div class="input-group">
+                <i class="fa-solid fa-envelope"></i>
+                <input type="email" id="email" placeholder="البريد الإلكتروني" required>
+            </div>
+            
+            <div class="input-group">
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" id="password" placeholder="كلمة المرور" required>
+            </div>
+            
+            <button type="submit" class="btn-submit">دخول</button>
+            <p id="successMsg" style="display:none; color: #16a34a; margin-top: 15px; font-weight: 600;">تم تسجيل الدخول بنجاح! 🎉</p>
+        </form>
+
+        <div class="footer-links">
+            ليس لديك حساب؟ <a href="register.html">إنشاء حساب جديد</a>
+        </div>
+    </div>
+</div>
+
+<script>
+const form = document.getElementById("loginForm");
+const successMsg = document.getElementById("successMsg");
+
+form.addEventListener("submit", function(e) {
+    e.preventDefault();
+    
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+    
+    // 1. جلب قائمة المستخدمين المسجلين من المتصفح
+    let users = JSON.parse(localStorage.getItem("users")) || [];
+
+    // 2. البحث عن المستخدم المطابق للبريد وكلمة المرور
+    const user = users.find(u => u.email === email && u.password === password);
+
+    if (user) {
+        // 3. حفظ حالة الدخول (المفتاح الذي يفتح باقي الصفحات)
+        localStorage.setItem("user", JSON.stringify(user));
+        
+        // 4. إظهار رسالة النجاح
+        successMsg.style.display = "block";
+        
+        // 5. الانتقال لصفحة الحجز بعد ثانية ونصف
+        setTimeout(() => {
+            window.location.href = "booking.html";
+        }, 1500);
+    } else {
+        // 6. تنبيه في حالة الخطأ
+        alert("البريد الإلكتروني أو كلمة المرور غير صحيحة. تأكد من تسجيل حساب أولاً.");
+    }
+});
+</script>
+
+</body>
+</html>

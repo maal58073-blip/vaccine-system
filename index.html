@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الرئيسية - منظومة التطعيمات الذكية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+  <footer>
+    <div class="footer-content">
+        <div class="footer-logo">
+            <h3><i class="fa-solid fa-shield-virus"></i> منظومة التطعيمات</h3>
+            <p>نهتم بمستقبل أطفالكم من خلال توفير رعاية صحية ذكية وسهلة الوصول.</p>
+        </div>
+        <div class="footer-rights">
+            <p>جميع الحقوق محفوظة &copy; 2026 | تصميم وتطوير المنظومة</p>
+        </div>
+    </div>
+</footer>
+</head>
+
+<body>
+
+<nav>
+    <div class="nav-container">
+        <a href="index.html" class="active"><i class="fa-solid fa-house"></i> الرئيسية</a>
+        <a href="register.html" id="regLink"><i class="fa-solid fa-user-plus"></i> تسجيل حساب</a>
+        <a href="login.html" id="loginLink"><i class="fa-solid fa-right-to-bracket"></i> دخول</a>
+        
+        <a href="#" onclick="checkAccess(event, 'booking.html')"><i class="fa-solid fa-calendar-check"></i> حجز موعد</a>
+        <a href="#" onclick="checkAccess(event, 'contact.html')"><i class="fa-solid fa-envelope"></i> تواصل معنا</a>
+        
+        <a href="#" onclick="logout()" id="logoutLink" style="display:none; color: #ff4d4d;"><i class="fa-solid fa-right-from-bracket"></i> خروج</a>
+    </div>
+</nav>
+
+<div class="hero">
+    <div class="hero-content">
+        <h1><i class="fa-solid fa-shield-virus"></i> مرحبًا بك في منظومة التطعيمات</h1>
+        <p>نحن نهتم بصحة أطفالك. احجز موعدك الآن بكل سهولة وأمان عبر منصتنا الإلكترونية.</p>
+        <div class="hero-btns">
+            <a href="#" onclick="checkAccess(event, 'booking.html')" class="btn-primary">
+                <i class="fa-solid fa-calendar-check"></i> احجز موعدك الآن
+            </a>
+        </div>
+        <div class="hero-image">
+            <img src="images/hero.jpg.jpeg" alt="Vaccination">
+        </div>
+    </div>
+</div>
+
+<script>
+// التحقق من حالة المستخدم عند تحميل الصفحة
+const user = JSON.parse(localStorage.getItem("user"));
+const logoutLink = document.getElementById("logoutLink");
+const regLink = document.getElementById("regLink");
+const loginLink = document.getElementById("loginLink");
+
+if(user){
+    logoutLink.style.display = "inline-block";
+    regLink.style.display = "none";
+    loginLink.style.display = "none";
+}
+
+// دالة حماية الروابط
+function checkAccess(event, page) {
+    event.preventDefault(); // منع الانتقال المباشر
+    if(localStorage.getItem("user")) {
+        window.location.href = page;
+    } else {
+        alert("عذراً، يجب عليك تسجيل الدخول أولاً للوصول إلى هذه الخدمة.");
+        window.location.href = "login.html";
+    }
+}
+
+// دالة تسجيل الخروج
+function logout(){
+    if(confirm("هل أنت متأكد من تسجيل الخروج؟")) {
+        localStorage.removeItem("user");
+        window.location.href = "index.html";
+    }
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,103 @@
+<<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إنشاء حساب - منظومة التطعيمات</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <footer>
+    <div class="footer-content">
+        <div class="footer-logo">
+            <h3><i class="fa-solid fa-shield-virus"></i> منظومة التطعيمات</h3>
+            <p>نهتم بمستقبل أطفالكم من خلال توفير رعاية صحية ذكية وسهلة الوصول.</p>
+        </div>
+        <div class="footer-rights">
+            <p>جميع الحقوق محفوظة &copy; 2026 | تصميم وتطوير المنظومة</p>
+        </div>
+    </div>
+</footer>
+</head>
+<body>
+
+<div class="register-page">
+    <div class="register-card">
+        <div class="logo-area">
+            <i class="fa-solid fa-shield-virus fa-3x" style="color: #4f46e5;"></i>
+        </div>
+        <h2>إنشاء حساب جديد</h2>
+        <p>ابدأ بتنظيم مواعيد تطعيمات أطفالك بطريقة ذكية</p>
+        
+        <form id="registerForm">
+            <div class="input-group">
+                <i class="fa-solid fa-user"></i>
+                <input type="text" id="regName" placeholder="الاسم الكامل" required>
+            </div>
+            
+            <div class="input-group">
+                <i class="fa-solid fa-envelope"></i>
+                <input type="email" id="regEmail" placeholder="البريد الإلكتروني" required>
+            </div>
+            
+            <div class="input-group">
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" id="regPassword" placeholder="كلمة المرور" required>
+            </div>
+            
+            <button type="submit" class="btn-submit">إنشاء الحساب</button>
+        </form>
+        
+        <div id="msg" style="display:none; margin-top:15px; padding:10px; border-radius:8px;"></div>
+
+        <div class="footer-links">
+            لديك حساب بالفعل؟ <a href="login.html">تسجيل الدخول</a>
+            <br><br>
+            <a href="index.html" style="color: #64748b; font-size: 0.8rem;">العودة للرئيسية</a>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('registerForm').addEventListener('submit', function(e) {
+    e.preventDefault(); // منع الصفحة من التحديث
+    
+    const name = document.getElementById('regName').value;
+    const email = document.getElementById('regEmail').value;
+    const password = document.getElementById('regPassword').value;
+    const msgDiv = document.getElementById('msg');
+
+    // 1. الحصول على قائمة المستخدمين الحالية من المتصفح (أو إنشاء قائمة جديدة)
+    let users = JSON.parse(localStorage.getItem("users")) || [];
+
+    // 2. التحقق إذا كان البريد موجوداً مسبقاً
+    const exists = users.find(u => u.email === email);
+    if(exists) {
+        msgDiv.style.display = "block";
+        msgDiv.style.backgroundColor = "#fee2e2";
+        msgDiv.style.color = "#ef4444";
+        msgDiv.textContent = "هذا البريد الإلكتروني مسجل مسبقاً!";
+        return;
+    }
+
+    // 3. إضافة المستخدم الجديد للقائمة
+    const newUser = { name, email, password };
+    users.push(newUser);
+
+    // 4. حفظ القائمة المحدثة في المتصفح
+    localStorage.setItem("users", JSON.stringify(users));
+
+    // 5. رسالة نجاح وتوجيه لصفحة الدخول
+    msgDiv.style.display = "block";
+    msgDiv.style.backgroundColor = "#dcfce7";
+    msgDiv.style.color = "#16a34a";
+    msgDiv.textContent = "تم إنشاء الحساب بنجاح! يتم تحويلك الآن...";
+
+    setTimeout(() => {
+        window.location.href = "login.html";
+    }, 2000);
+});
+</script>
+
+</body>
+</html>

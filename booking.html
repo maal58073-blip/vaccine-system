@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حجز موعد - منظومة صغارنا</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav>
+    <div class="nav-container">
+        <a href="index.html">الرئيسية</a>
+        <a href="booking.html" class="active">حجز موعد</a>
+        <a href="contact.html">تواصل معنا</a>
+        <a href="#" onclick="logout()" style="color:#ef4444;">خروج</a>
+    </div>
+</nav>
+
+<div class="register-page">
+    <div class="booking-container">
+        <div class="register-card">
+            <h2 id="welcomeUser" style="margin-bottom: 20px;">مرحباً بك</h2>
+            <form id="bookingForm" class="booking-form-grid">
+                <div class="input-group">
+                    <i class="fa-solid fa-person"></i>
+                    <input type="text" id="motherName" placeholder="اسم الأم الكامل" required>
+                </div>
+                <div class="input-group">
+                    <i class="fa-solid fa-child"></i>
+                    <input type="text" id="childName" placeholder="اسم الطفل" required>
+                </div>
+                <div class="input-group">
+                    <i class="fa-solid fa-hospital"></i>
+                    <select id="centerSelect" required>
+                        <option value="">-- اختر المركز الصحي --</option>
+                        <option value="الصابري">مركز الصابري الصحي</option>
+                        <option value="بنغازي الجديدة">مجمع عيادات بنغازي الجديدة</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <i class="fa-solid fa-calendar"></i>
+                    <input type="date" id="date" required>
+                </div>
+                <div class="input-group full-width">
+                    <i class="fa-solid fa-syringe"></i>
+                    <select id="vaccine" required>
+                        <option value="">-- اختر نوع التطعيم --</option>
+                        <option value="تطعيم الدرن (BCG)">تطعيم الدرن (BCG)</option>
+                        <option value="شلل الأطفال (Polio)">شلل الأطفال (Polio)</option>
+                        <option value="الثلاثي الفيروسي (MMR)">الثلاثي الفيروسي (MMR)</option>
+                        <option value="الالتهاب الكبدي B (HepB)">الالتهاب الكبدي B (HepB)</option>
+                        <option value="تطعيم الخماسي (DTP-HepB-Hib)">تطعيم الخماسي (DTP-HepB-Hib)</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-submit">تأكيد حجز الموعد</button>
+            </form>
+
+            <div id="scheduleDisplay">
+                <h4 id="centerTitle" style="color:var(--primary); margin-bottom:10px;"></h4>
+                <ul id="vaccineList" style="list-style:none; padding:0;"></ul>
+            </div>
+        </div>
+
+        <div class="register-card">
+            <h3> المواعيد المحجوزة</h3>
+            <div class="table-wrapper">
+                <table id="appointmentsTable">
+                    <thead>
+                        <tr><th>الأم</th><th>الطفل</th><th>التاريخ</th><th>التطعيم</th><th>إجراء</th></tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer><p>جميع الحقوق محفوظة &copy; 2026 | تصميم وتطوير المنظومة</p></footer>
+
+<script src="script.js?v=3.0"></script>
+<script>
+    // كود تسجيل الخروج والتحقق من المستخدم
+    const user = JSON.parse(localStorage.getItem("user"));
+    if(!user) window.location.href="login.html";
+    else document.getElementById("welcomeUser").innerText = "مرحباً، " + user.name + " 👋";
+
+    function logout() { localStorage.removeItem("user"); window.location.href="index.html"; }
+
+    // عرض المواعيد من الذاكرة
+    function displayApps() {
+        const tbody = document.querySelector("#appointmentsTable tbody");
+        tbody.innerHTML = "";
+        const apps = JSON.parse(localStorage.getItem("appointments")) || [];
+        if(apps.length === 0) {
+            tbody.innerHTML = "<tr><td colspan='5' style='text-align:center;'>لا توجد مواعيد محجوزة حالياً</td></tr>";
+            return;
+        }
+        apps.forEach((app, i) => {
+            tbody.innerHTML += `<tr>
+                <td>${app.motherName}</td><td>${app.childName}</td><td>${app.date}</td>
+                <td><span style="background:#eef2ff; color:#4f46e5; padding:4px 8px; border-radius:10px; font-size:0.8rem;">${app.vaccine}</span></td>
+                <td><button onclick="deleteApp(${i})" style="color:#ef4444; border:none; background:none; cursor:pointer;"><i class="fa-solid fa-trash"></i></button></td>
+            </tr>`;
+        });
+    }
+
+    function deleteApp(i) {
+        if(confirm("هل أنتِ متأكدة؟")){
+            let apps = JSON.parse(localStorage.getItem("appointments"));
+            apps.splice(i, 1);
+            localStorage.setItem("appointments", JSON.stringify(apps));
+            displayApps();
+        }
+    }
+
+    // حفظ الموعد الجديد
+    document.getElementById('bookingForm').onsubmit = function(e) {
+        e.preventDefault();
+        const newApp = {
+            motherName: document.getElementById('motherName').value,
+            childName: document.getElementById('childName').value,
+            date: document.getElementById('date').value,
+            vaccine: document.getElementById('vaccine').value
+        };
+        let apps = JSON.parse(localStorage.getItem("appointments")) || [];
+        apps.push(newApp);
+        localStorage.setItem("appointments", JSON.stringify(apps));
+        alert("تم الحجز بنجاح لـ " + newApp.childName);
+        this.reset();
+        displayApps();
+        document.getElementById('scheduleDisplay').style.display = 'none';
+    };
+
+    displayApps();
+</script>
+</body>
+</html>
