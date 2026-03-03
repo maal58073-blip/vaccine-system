@@ -91,4 +91,12 @@ table { width: 100%; border-collapse: collapse; background: white; min-width: 50
 th, td { padding: 12px; border-bottom: 1px solid #f1f5f9; text-align: right; font-size: 0.9rem; }
 th { color: var(--primary); background: #f8fafc; }
 
+
 footer { background: #1a2a3a; color: white; padding: 20px; text-align: center; width: 100%; font-size: 0.8rem; }
+/* كود لجعل الصورة متناسقة مع شاشة الموبايل */
+img {
+    max-width: 100%;    /* العرض لا يتجاوز شاشة الهاتف */
+    height: auto;       /* الحفاظ على أبعاد الصورة دون تشويه */
+    display: block;     /* وضعها في سطر منفرد */
+    margin: 10px auto;  /* توسيط الصورة وترك مسافة بسيطة */
+}
